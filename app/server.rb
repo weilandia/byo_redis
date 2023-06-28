@@ -6,9 +6,15 @@ class YourRedisServer
   end
 
   def start
+    loop do
     server = TCPServer.new(@port)
     client = server.accept
-    "+PONG\r\n"
+
+    request = client.gets
+    puts request
+
+    client.write("+PONG\r\n")
+    end
   end
 end
 
