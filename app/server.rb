@@ -7,13 +7,14 @@ class YourRedisServer
 
   def start
     loop do
-    server = TCPServer.new(@port)
-    client = server.accept
+      server = TCPServer.new(@port)
+      client = server.accept
 
-    request = client.gets
-    puts request
+      request = client.gets
+      puts request
 
-    client.write("+PONG\r\n")
+      client.write("+PONG\r\n")
+      client.close
     end
   end
 end
