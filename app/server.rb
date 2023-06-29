@@ -28,8 +28,6 @@ class RedisServer
   def handle_client(client)
     command = client.recv(1024)
     client.write("+PONG\r\n")
-  rescue Errno::ECONNRESET
-    puts "Client disconnected."
   end
 end
 
