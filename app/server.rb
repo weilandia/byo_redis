@@ -29,7 +29,6 @@ class RedisServer
     command = client.recv(1024)
     client.write("+PONG\r\n")
   rescue Errno::ECONNRESET
-    clients.delete(client)
     puts "Client disconnected."
   end
 end
