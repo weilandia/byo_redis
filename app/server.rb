@@ -1,4 +1,5 @@
 require "socket"
+require "pry"
 
 class RedisServer
   attr_reader :server, :clients
@@ -25,8 +26,11 @@ class RedisServer
   end
 
   def handle_client(client)
-    client.recv(1024)
+    command = client.recv(1024)
     client.write("+PONG\r\n")
+  rescue Errno::ECONNRESET
+    clients.delete(client)
+    puts "Client disconnected."
   end
 end
 
