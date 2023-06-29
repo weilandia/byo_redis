@@ -20,4 +20,4 @@ class YourRedisServer
   end
 end
 
-YourRedisServer.new(6370).start
+YourRedisServer.new(6379).start
