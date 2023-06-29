@@ -1,7 +1,8 @@
 require "socket"
-require "pry"
 
-class RedisServer
+class YourRedisServer
+  MAX_COMMAND_LENGTH = 1024
+
   attr_reader :server, :clients
 
   def initialize(port)
@@ -12,23 +13,24 @@ class RedisServer
   def listen
     loop do
       watching = [server] + clients
-      ready_to_read, _, _ = IO.select(watching)
 
-      ready_to_read.each do |ready|
-        if ready == server
-          puts "New client connected."
-          clients << server.accept
+      readable, writable, _ = IO.select(watching)
+
+      readable.each do |socket|
+        if socket == server
+          client = server.accept
+          clients.push(client)
         else
-          handle_client(ready)
+          handle_client(socket)
         end
       end
     end
   end
 
   def handle_client(client)
-    command = client.recv(1024)
+    client.recv(1024)
     client.write("+PONG\r\n")
   end
 end
 
-RedisServer.new(6379).listen
+YourRedisServer.new(6379).listen
