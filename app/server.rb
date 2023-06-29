@@ -10,12 +10,14 @@ class YourRedisServer
       server = TCPServer.new(@port)
       client = server.accept
 
-      request = client.gets
+      while line = client.gets
+        puts line
+        client.write("+PONG\r\n")
+      end
 
-      client.write("+PONG\r\n")
       client.close
     end
   end
 end
 
-YourRedisServer.new(6379).start
+YourRedisServer.new(6370).start
