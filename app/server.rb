@@ -1,21 +1,19 @@
 require "socket"
 
 class YourRedisServer
+  MAX_COMMAND_LENGTH = 1024
+
   def initialize(port)
     @port = port
   end
 
   def start
-    loop do
-      server = TCPServer.new(@port)
-      client = server.accept
+    server = TCPServer.new(@port)
+    client = server.accept
 
-      while line = client.gets
-        puts line
-        client.write("+PONG\r\n")
-      end
-
-      client.close
+    until client.eof?
+      client.gets
+      client.write("+PONG\r\n")
     end
   end
 end
