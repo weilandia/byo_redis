@@ -9,17 +9,14 @@ class YourRedisServer
 
   def start
     server = TCPServer.new(@port)
-    client = server.accept
+    socket = server.accept
 
     loop do
-      client.recv(MAX_COMMAND_LENGTH)
-      client.write("+PONG\r\n")
-    rescue Errno::ECONNRESET
-      puts "The connection is terminated by the client."
-      break
+      socket.recv(MAX_COMMAND_LENGTH)
+      Thread.new do
+        socket.write("+PONG\r\n")
+      end
     end
-
-    client.close
   end
 end
 
