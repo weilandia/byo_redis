@@ -20,6 +20,7 @@ class YourRedisServer
         if socket == server
           client = server.accept
           clients.push(client)
+          puts "Client connected."
         else
           handle_client(socket)
         end
@@ -30,6 +31,10 @@ class YourRedisServer
   def handle_client(client)
     client.recv(1024)
     client.write("+PONG\r\n")
+  rescue Errno::ECONNRESET, Errno::EPIPE
+    clients.delete(client)
+    client.close
+    puts "Client disconnected."
   end
 end
 
