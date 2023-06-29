@@ -11,7 +11,6 @@ class YourRedisServer
       client = server.accept
 
       request = client.gets
-      puts request
 
       client.write("+PONG\r\n")
       client.close
