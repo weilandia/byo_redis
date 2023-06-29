@@ -12,8 +12,8 @@ class YourRedisServer
     socket = server.accept
 
     loop do
-      socket.recv(MAX_COMMAND_LENGTH)
       Thread.new do
+        socket.recv(MAX_COMMAND_LENGTH)
         socket.write("+PONG\r\n")
       end
     end
