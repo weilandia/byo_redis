@@ -33,7 +33,6 @@ class YourRedisServer
 
   def handle_client(client)
     resp = client.recv(1024)
-    puts resp
 
     if resp == ""
       clients.delete(client)
@@ -73,7 +72,7 @@ class YourRedisServer
       client.write(bulk_string(instructions[1][:value]))
       2
     else
-      client.write(simple_string("Unknown command"))
+      client.write(simple_string("OK"))
     end
   end
 
