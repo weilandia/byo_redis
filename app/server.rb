@@ -3,7 +3,7 @@
 require "socket"
 require_relative "redis_serialization_protocol"
 
-class YourRedisServer
+class Server
   MAX_COMMAND_LENGTH = 1024
 
   attr_reader :server, :clients, :store
@@ -143,4 +143,4 @@ class YourRedisServer
   end
 end
 
-YourRedisServer.new(6379).listen
+Server.new(6379).listen
