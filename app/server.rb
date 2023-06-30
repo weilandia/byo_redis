@@ -6,11 +6,12 @@ require_relative "redis_serialization_protocol"
 class YourRedisServer
   MAX_COMMAND_LENGTH = 1024
 
-  attr_reader :server, :clients
+  attr_reader :server, :clients, :store
 
   def initialize(port)
     @server = TCPServer.new(port)
     @clients = []
+    @store = {}
   end
 
   def listen
@@ -69,6 +70,13 @@ class YourRedisServer
       1
     when /ECHO/i
       client.write(bulk_string(instructions[1][:value]))
+      2
+    when /SET/i
+      store[instructions[1][:value]] = instructions[2][:value]
+      client.write(simple_string("OK"))
+      3
+    when /GET/i
+      client.write(bulk_string(store[instructions[1][:value]]))
       2
     else
       client.write(simple_string("OK"))
