@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "socket"
-require "pry"
 require_relative "redis_serialization_protocol"
 
 class YourRedisServer
@@ -14,7 +13,7 @@ class YourRedisServer
     @clients = []
   end
 
-  def start
+  def listen
     loop do
       watching = [server] + clients
 
@@ -89,4 +88,4 @@ class YourRedisServer
   end
 end
 
-YourRedisServer.new(6379).start
+YourRedisServer.new(6379).listen
