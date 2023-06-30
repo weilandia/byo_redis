@@ -35,8 +35,8 @@ class YourRedisServer
     resp = client.recv(1024)
 
     if resp == ""
-      # clients.delete(client)
-      # client.close
+      clients.delete(client)
+      client.close
       return
     end
 
