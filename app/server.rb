@@ -14,7 +14,7 @@ class YourRedisServer
     @clients = []
   end
 
-  def listen
+  def start
     loop do
       watching = [server] + clients
 
@@ -89,4 +89,4 @@ class YourRedisServer
   end
 end
 
-YourRedisServer.new(6379).listen
+YourRedisServer.new(6379).start
